@@ -1,14 +1,19 @@
-import {createRouter, createWebHistory} from "vue-router";
-import Index from '../components/Index.vue'
-
-
-const routes = [
-    {path: "/", name: "Index", component: Index},
-]
+import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes,
-});
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes: [
+        {
+            path: '/',
+            component: () => import('../layouts/default.vue'),
+            children: [
+                {
+                    path: 'upload-csv',
+                    component: () => import('../components/UploadFile.vue'),
+                },
+            ],
+        },
+    ],
+})
 
-export default router;
+export default router
