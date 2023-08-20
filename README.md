@@ -6,8 +6,9 @@ This guide will walk you through the setup process for our project.
 
 1. Clone the repository:
 
+
 ```sh
-composer install
+git clone https://github.com/IvanTaranenko/upload_csv.git
 ```
 
 2. Install PHP dependencies using Composer:
