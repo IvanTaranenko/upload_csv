@@ -1,18 +1,23 @@
 <?php
+
 namespace App\Imports;
 
 use App\Models\InvalidData;
 use App\Models\ValidData;
+use Maatwebsite\Excel\Concerns\RemembersChunkOffset;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
-use Illuminate\Support\Collection;
 
-class CSVImport implements ToModel, WithChunkReading, ShouldQueue
+class CSVImport implements ToModel, WithBatchInserts, WithChunkReading, ShouldQueue
 {
+    use RemembersChunkOffset;
 
     public function model(array $row)
     {
+        $chunkOffset = $this->getChunkOffset();
+
         $hasNumberOrNull = false;
         foreach ($row as $cell) {
             if (is_numeric($cell) || $cell === null) {
@@ -20,7 +25,6 @@ class CSVImport implements ToModel, WithChunkReading, ShouldQueue
                 break;
             }
         }
-
         if ($hasNumberOrNull) {
             $existingData = InvalidData::where([
                 'column1' => $row[0],
@@ -59,6 +63,10 @@ class CSVImport implements ToModel, WithChunkReading, ShouldQueue
         }
     }
 
+    public function batchSize(): int
+    {
+        return 100;
+    }
     public function chunkSize(): int
     {
         return 200;

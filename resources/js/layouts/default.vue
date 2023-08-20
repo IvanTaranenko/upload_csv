@@ -1,7 +1,9 @@
 <template>
     <div class="flex h-screen bg-gray-100">
         <nav class=" bg-gray-800 text-white p-4">
-            <div class="text-xl font-semibold mb-4">Just Test Example</div>
+            <div class="text-xl font-semibold mb-4">
+                <RouterLink to="/">Just Test Example</RouterLink>
+            </div>
             <ul class="space-y-2">
                 <li class="flex items-center">
           <span class="w-6 h-6 mr-2">
@@ -26,11 +28,10 @@
                         Upload CSV
                     </RouterLink>
                 </li>
-
             </ul>
         </nav>
         <main class="flex-1 p-10">
-            <RouterView />
+            <RouterView/>
         </main>
     </div>
 </template>
